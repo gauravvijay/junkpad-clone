@@ -256,27 +256,23 @@ body {
   margin-bottom: 12px;
 }
 
-/* ---- OVERLAY (before file loaded) ---- */
+/* ---- LOADING OVERLAY ---- */
 .overlay {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
   background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 50%, #00b894 100%);
   z-index: 1000; display: flex; flex-direction: column;
   align-items: center; justify-content: center; color: #fff; text-align: center;
-  padding: 24px;
+  padding: 24px; transition: opacity .4s;
 }
-.overlay.hidden { display: none; }
-.overlay h1 { font-size: 32px; margin-bottom: 12px; }
-.overlay p { font-size: 16px; opacity: .85; margin-bottom: 24px; max-width: 400px; }
-.overlay .drop-zone {
-  border: 3px dashed rgba(255,255,255,.5); border-radius: 20px;
-  padding: 40px 32px; font-size: 18px; max-width: 400px; width: 100%;
-  cursor: pointer; transition: all .2s;
+.overlay.hidden { opacity: 0; pointer-events: none; }
+.loading-spinner {
+  width: 48px; height: 48px; border: 4px solid rgba(255,255,255,.3);
+  border-top-color: #fff; border-radius: 50%;
+  animation: spin .8s linear infinite; margin-bottom: 16px;
 }
-.overlay .drop-zone:hover,
-.overlay .drop-zone.dragover {
-  border-color: #fff; background: rgba(255,255,255,.15);
-}
-.overlay .or { margin: 16px 0; opacity: .6; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.overlay h1 { font-size: 24px; margin-bottom: 8px; }
+.overlay p { font-size: 14px; opacity: .75; }
 
 /* ---- SCROLL TO TOP ---- */
 .scroll-top {
@@ -314,14 +310,11 @@ body {
 </head>
 <body>
 
-<!-- Overlay (before file loaded) -->
+<!-- Loading overlay -->
 <div class="overlay" id="overlay">
-  <h1>🧠 Learning Explorer</h1>
-  <p>Drop a Learning DAG JSON file here or pick one to start exploring!</p>
-  <div class="drop-zone" id="dropZone" onclick="document.getElementById('filePicker').click()">
-    📂 Drop JSON file here<br><small>or tap to browse</small>
-  </div>
-  <input type="file" id="filePicker" accept=".json" style="display:none">
+  <div class="loading-spinner"></div>
+  <h1>🧠 Loading…</h1>
+  <p>Preparing your learning adventure</p>
 </div>
 
 <!-- Main app (hidden until data loads) -->
